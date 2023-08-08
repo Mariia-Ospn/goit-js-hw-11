@@ -8,6 +8,7 @@ const perPage = 40;
 let currentPage = 1;
 let quantityPage = null;
 let querry = '';
+let lightbox = createLightbox();
 
 refs.btnLoadMore.classList.add('is-hidden');
 refs.btnSearch.disabled = true;
@@ -45,7 +46,7 @@ async function onSubmit(evt) {
         createPhotoCardsMarkup(hits)
       );
 
-      createLightbox();
+      lightbox.refresh();
 
       quantityPage = Math.ceil(totalHits / perPage);
 
@@ -106,7 +107,7 @@ async function handlerLoadMore() {
 
     refs.gallery.insertAdjacentHTML('beforeend', createPhotoCardsMarkup(hits));
 
-    createLightbox();
+    lightbox.refresh();
     scrollGallery();
 
     if (currentPage === quantityPage) {
@@ -119,12 +120,11 @@ async function handlerLoadMore() {
 }
 
 function createLightbox() {
-  const lightbox = new SimpleLightbox('.gallery a', {
+  return new SimpleLightbox('.gallery a', {
     captions: true,
     captionsData: 'alt',
     captionDelay: 250,
   });
-  lightbox.refresh();
 }
 
 function scrollGallery() {
